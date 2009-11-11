@@ -239,7 +239,8 @@ tnt_twitter = {
 			'friend_icons':'show smiley icons on friends ( users you follow and they follow back )',
 			'groups':'Allows you to group Twitterers together in searchable Groups',
 			'@user_tab':'Searches for @user allowing you to view their mentions and replies.',
-			'tweet_char_count':'Shows character count in tweet meta, users get a "twoosh!" if over 139 characters'
+			'tweet_char_count':'Shows character count in tweet meta, users get a "twoosh!" if over 139 characters',
+			'rt_style':'Use \'RT @user message\' as the retweet style. If turned off, use via style'
 			
 		}
 	},
@@ -255,7 +256,8 @@ tnt_twitter = {
 				'add_retweet_button':1,
 				'hide_twitter_defs':1,
 				'friend_icons':1,
-				'tweet_char_count':0
+				'tweet_char_count':0,
+				'rt_style':1
 			},
 			'home':{
 				'autocomplete':1,
@@ -1447,7 +1449,11 @@ tnt_twitter = {
 		var link = $retweet_btn.attr('href');
 		link = link.split('&')
 		var content = $tweet.find('.entry-content:first,.msgtxt:first').text();
-                var retweet_msg = 'RT @'+user+' '+ content.replace("\n",'','g') 
+        if(!tnt_twitter.can('rt_style')){
+			var retweet_msg = content.replace("\n",'','g')+'(via '+user+')'
+        }else{
+            var retweet_msg = 'RT @'+user+' '+ content.replace("\n",'','g') 
+        }
 		link[0] = '/home?'+$.param({status: retweet_msg })
 		link = link.join('&');
 		$retweet_btn.attr({
